@@ -8,4 +8,6 @@ https://gitlab.com/palisade/palisade-development/-/wikis/Instructions-for-buildi
 mkdir build
 cd build
 cmake ..
+make
+./threshold-fhe-demo
 ```
