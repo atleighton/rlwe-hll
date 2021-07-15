@@ -27,15 +27,21 @@ designed with ElGamal in mind originally.
 
 ### One possibility
 After unrolling our HLL values into a unary format 3=[1,1,1,0,0,0,0,0], we then use element-wise addition
-to take the max, resulting in something like 6=[4,3,3,1,1,1,0,0]. Then we somehow figure out how to count non-zers?
+to take the max, resulting in something like 6=[4,3,3,1,1,1,0,0]. Then we somehow figure out how to count non-zeros?
+If we can do that, that let's us do everything in ciphertext.
 
 ### Another possibility
 We can use the opposite unary format 3=[0,0,0,1,1,1,1,1]. We then use element-wise multiplication to
 take the max, resutling in something like 6=[0,0,0,0,0,0,1,1]. Then we subtract it all from 1, and then sum to get
 6=sum([1,1,1,1,1,1,0,0]). This allows us to compute the bin values in the ciphertext, so we'll be left with the actual HLL sketch.
 
+This solves the problem we encountered above of counting non-zeros. However, the main disadvantage
+of this strategy is that it involves a lot of expensive multiplications. Perhaps it's fine?
+
+## Final estimation
 At that point, instead of using HLL, we can instead use just the ordinary LogLog algorithm:
 http://algo.inria.fr/flajolet/Publications/DuFl03-LNCS.pdf / https://weishungchung.com/2014/07/30/hyperloglog/
 Unlike HLL, which uses a harmonic mean, the original LogLog algorithm used just an arithmetic, mean, so we can just again sum up all the bin values.
 Revealing the summed bin values let's use do basically everything in the CipherText, and all that is revealed at the end is a proxy for the estimate.
 This way we also don't have to worry about any shuffling.
+
