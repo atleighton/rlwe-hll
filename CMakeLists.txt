@@ -46,4 +46,5 @@ endif()
 ###
 ### EXAMPLE:
 ### add_executable( test demo-simple-example.cpp )
-add_executable( threshold-fhe-demo threshold-fhe.cpp )
+add_executable( threshold-fhe-demo threshold-fhe.cpp)
+add_executable( run_sim run_sim.cpp )

@@ -13,3 +13,10 @@ python3 generate_sim_data.py --num_patients $NUM_PATIENTS --num_conditions $NUM_
 
 python generate_loglog_sketches.py --num_patients $NUM_PATIENTS --num_conditions $NUM_CONDITIONS --num_hospitals $NUM_HOSPITALS --num_buckets $NUM_BUCKETS ;
 
+mkdir build;
+cd build;
+
+cmake ..;
+make;
+
+./run_sim
