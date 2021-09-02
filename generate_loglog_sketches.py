@@ -8,8 +8,8 @@ import binascii
 
 def readCL():
 	parser = OptionParser()
-	parser.add_option("-d", "--input_dir", default = "{0}/sim_data/".format(os.getcwd()))
-	parser.add_option("-o", "--output_dir", default = "{0}/sim_sketches/".format(os.getcwd()))
+	parser.add_option("-d", "--input_dir", default = "{0}/sim_data".format(os.getcwd()))
+	parser.add_option("-o", "--output_dir", default = "{0}/sim_sketches".format(os.getcwd()))
 	parser.add_option("-n", "--num_patients", default = 1000)
 	parser.add_option("-k", "--num_conditions", default = 10)
 	parser.add_option("-z", "--num_hospitals", default = 3)
@@ -37,7 +37,7 @@ def load_data(input_dir, num_patients, num_conditions, num_hospitals):
 	return hospitals
 
 def log_log(hospital_path, num_buckets):
-	max_num_zeros_per_bucket = np.zeros(num_buckets)
+	hospital_numerical_sketches = np.zeros(num_buckets)
 	for row in readCSV(hospital_path):
 		hex_digest = hashlib.sha1(row["SSN"]).hexdigest()
 		binary_hash = bin(int(hex_digest, 16))[2:].zfill(160)
@@ -48,17 +48,32 @@ def log_log(hospital_path, num_buckets):
 				leading_zeros += 1
 			else:
 				break
-		if max_num_zeros_per_bucket[bucket] < leading_zeros:
-			max_num_zeros_per_bucket[bucket] = leading_zeros
-	return max_num_zeros_per_bucket
+		if hospital_numerical_sketches[bucket] < leading_zeros:
+			hospital_numerical_sketches[bucket] = leading_zeros
+	return hospital_numerical_sketches
+
+def write_unary_sketches(hospital_sketch_path, hospital_numerical_sketches):
+	'''
+	writes a csv file for each hospital
+	row# = bucket (length 32 unary representing max # leading zeros)
+	'''
+	with open(hospital_sketch_path, "w") as csvfile:
+		writer = csv.writer(csvfile)
+		for bucket in hospital_numerical_sketches:
+			val = int(bucket)
+			unary_bucket = ["1"]*val + ["0"] * (32-val)
+			writer.writerow(unary_bucket)
+	return
 
 
 
 def gen_write_sketches(input_dir, output_dir, num_patients, num_hospitals, num_conditions, num_buckets):
 	for i in range(num_hospitals):
 		hospital_num = i+1
-		hospital_path = "{0}/hospital_{1}_data.csv".format(input_dir, hospital_num)
-		max_num_zeros_per_bucket = log_log(hospital_path, num_buckets)
+		hospital_input_path = "{0}/hospital_{1}_data.csv".format(input_dir, hospital_num)
+		hospital_sketch_path = "{0}/hospital_{1}_sketches.csv".format(output_dir, hospital_num)
+		hospital_numerical_sketches = log_log(hospital_input_path, num_buckets)
+		write_unary_sketches(hospital_sketch_path, hospital_numerical_sketches)
 	return
 
 def sample_query():
@@ -69,6 +84,8 @@ def sample_query():
 
 def main():
 	input_dir, output_dir, num_patients, num_conditions, num_hospitals, num_buckets = readCL()
+	if not os.path.isdir(output_dir):
+		os.mkdir(output_dir)
 	gen_write_sketches(input_dir, output_dir, num_patients, num_hospitals, num_conditions, num_buckets)
 	return
 
