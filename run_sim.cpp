@@ -23,6 +23,12 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "palisade.h"
+#include <iostream>
+#include <cstdlib>
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <stdexcept> // std::runtime_error
 
 using namespace std;
 using namespace lbcrypto;
@@ -30,8 +36,21 @@ using namespace lbcrypto;
 void RunBGVrnsAdditive();
 void RunBFVrns();
 void RunCKKS();
+std::vector<std::vector<int64_t>> FetchSketches(int hospital_number);
+
+
+
 
 int main(int argc, char *argv[]) {
+  int num_patients= atoi(argv[1]);
+  int num_conditions = atoi(argv[2]);
+  int num_hospitals = atoi(argv[3]);
+  int num_buckets = atoi(argv[4]);
+  std::cout << num_patients << std::endl;
+  std::cout << num_conditions << std::endl;
+  std::cout << num_hospitals << std::endl;
+  std::cout << num_buckets << std::endl;
+
   std::cout << "\n=================RUNNING FOR BGVrns - Additive "
                "====================="
             << std::endl;
@@ -50,6 +69,54 @@ int main(int argc, char *argv[]) {
 
   return 0;
 }
+
+std::vector<std::vector<int64_t>> FetchSketches(int hospital_number){
+  static int COLS = 32;
+  std::string f_path = std::__fs::filesystem::current_path().parent_path().string() + "/sim_sketches/hospital_" + std::to_string(hospital_number) +"_sketches.csv";
+  std::cout << "\n=========== Looking for hospital sketch at " + f_path+
+             " ====================="
+          << std::endl;
+  // Variable declarations
+  fstream myfile;
+  std::string line, coname;
+  std::vector<std::vector<int64_t>>sketch_buckets; // 2d array as a vector of vectors
+  vector<int64_t> rowVector(COLS); // vector to add into 'array' (represents a row)
+  int row = 0; // Row counter
+  int colIdx;
+  int64_t val;
+  // Read file
+  myfile.open(f_path, ios::in); // Open file
+  if (myfile.is_open()) { // If file has correctly opened...
+    // Output debug message
+    cout << "File correctly opened" << endl;
+
+    // Dynamically store data into array
+    while (myfile.good()) { // ... and while there are no errors,
+      while(std::getline(myfile, line)){
+        std::stringstream ss(line);
+        colIdx = 0;
+        while(ss >> val){
+          rowVector[colIdx] =val;
+          if(ss.peek() == ',') ss.ignore();
+          colIdx++;
+        }
+        sketch_buckets.push_back(rowVector);
+        row++; // Keep track of actual row 
+      }
+    }
+  }
+  else cout << "Unable to open file" << endl;
+  std::cout << "Data for hospital " << std::to_string(hospital_number) << std::endl;
+  for (int i =0; i < 4; i++){
+    for (int j=0; j < 32; j++){
+      std::cout << std::to_string(sketch_buckets[i][j]) << " ";
+    }
+    std::cout << std::endl;
+  }
+
+  return sketch_buckets;
+}
+
 
 void RunBGVrnsAdditive() {
   uint32_t plaintextModulus = 65537;
@@ -128,9 +195,12 @@ void RunBGVrnsAdditive() {
   ////////////////////////////////////////////////////////////
   // Encode source data
   ////////////////////////////////////////////////////////////
-  std::vector<int64_t> vectorOfInts1 = {1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0};
-  std::vector<int64_t> vectorOfInts2 = {1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0};
-  std::vector<int64_t> vectorOfInts3 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 0};
+  std::vector<std::vector<int64_t>> sketch_buckets;
+  std::cout << "My code" << std::endl;
+  sketch_buckets= FetchSketches(1);
+  std::vector<int64_t> vectorOfInts1 = sketch_buckets[0];
+  std::vector<int64_t> vectorOfInts2 = sketch_buckets[1];
+  std::vector<int64_t> vectorOfInts3 = sketch_buckets[2];
 
   Plaintext plaintext1 = cc->MakePackedPlaintext(vectorOfInts1);
   Plaintext plaintext2 = cc->MakePackedPlaintext(vectorOfInts2);
