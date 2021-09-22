@@ -51,6 +51,13 @@ int main(int argc, char *argv[]) {
   std::cout << num_hospitals << std::endl;
   std::cout << num_buckets << std::endl;
 
+  // load all sketches into 3d array. array[hospital number][bucket number] yields the unary sketch vector
+  std::vector<std::vector<std::vector<int64_t>>> hospital_sketches;
+  for (int hospital_number = 1; hospital_number <= num_hospitals; hospital_number++){
+    hospital_sketches.push_back(FetchSketches(hospital_number)); 
+  }
+
+
   std::cout << "\n=================RUNNING FOR BGVrns - Additive "
                "====================="
             << std::endl;
@@ -93,11 +100,11 @@ std::vector<std::vector<int64_t>> FetchSketches(int hospital_number){
     // Dynamically store data into array
     while (myfile.good()) { // ... and while there are no errors,
       while(std::getline(myfile, line)){
-        std::stringstream ss(line);
+        std::stringstream s(line);
         colIdx = 0;
-        while(ss >> val){
+        while(s >> val){
           rowVector[colIdx] =val;
-          if(ss.peek() == ',') ss.ignore();
+          if(s.peek() == ',') s.ignore();
           colIdx++;
         }
         sketch_buckets.push_back(rowVector);
