@@ -70,6 +70,10 @@ int main(int argc, char *argv[]) {
 void RunHLLSketch(std::vector<std::vector<std::vector<int64_t>>> hospital_sketches, int num_hospitals, int num_buckets) {
   uint32_t plaintextModulus = 65537; //TODO ???
   SecurityLevel securityLevel = HEStd_128_classic; // TODO ???
+  uint32_t depth = ceil(log2(num_hospitals)); 
+  //TODO sigma param???
+
+  std::cout << "Calculated depth " << depth << std::endl;
 
   // Generate the cryptocontext
   CryptoContext<DCRTPoly> cc =
@@ -101,10 +105,10 @@ void RunHLLSketch(std::vector<std::vector<std::vector<int64_t>>> hospital_sketch
             << std::endl;
 
   // Initialize Public Key Containers for # hospital parties
-  std::vector<DCRTPoly> publicKeyContainers;
+  std::vector<LPKeyPair<DCRTPoly>> publicKeyContainers;
   for (int i = 0; i < num_hospitals; i++){
     LPKeyPair<DCRTPoly> kp; //TODO make sure it isn't using same keys
-    publicKeyContainers.push_back(kp)
+    publicKeyContainers.push_back(kp);
   }
   LPKeyPair<DCRTPoly> kp1;
   LPKeyPair<DCRTPoly> kp2;
