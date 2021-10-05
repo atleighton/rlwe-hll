@@ -5,9 +5,9 @@ if [ "$1" == "-h" ]; then
   exit 0
 fi
 
-NUM_PATIENTS=${1:-1000};
+NUM_PATIENTS=${1:-100};
 NUM_CONDITIONS=${2:-10};
-NUM_HOSPITALS=${3:-4};
+NUM_HOSPITALS=${3:-128};
 NUM_BUCKETS=${4:-4};
 
 echo "Number of patients at each hospital: ${NUM_PATIENTS}";

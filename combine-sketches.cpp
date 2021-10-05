@@ -155,7 +155,7 @@ auto evalMultJoint1 = cc->MultiMultEvalKey(evalMult_up_to_3, kp1.secretKey,
 auto evalMultJoint2 = cc->MultiMultEvalKey(evalMult_up_to_3, kp2.secretKey,
                                            kp3.publicKey->GetKeyTag());
 
-// Joint key (s_1 + s_2 + s_3) is transformed into s_1*(s_1 + s_2 + s_3)
+// Joint key (s_1 + s_2 + s_3) is transformed into s_3*(s_1 + s_2 + s_3)
 auto evalMultJoint3 = cc->MultiMultEvalKey(evalMult_up_to_3, kp3.secretKey,
                                            kp3.publicKey->GetKeyTag());
 // Final evaluation multiplication key for (s_1 + s_2 + s_3) * (s_1 + s_2 + s_3)
