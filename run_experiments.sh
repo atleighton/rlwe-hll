@@ -24,6 +24,7 @@ mkdir build;
 cd build;
 
 cmake ..;
+cd ..;
 make;
 
 ./run_sim $NUM_PATIENTS $NUM_CONDITIONS $NUM_HOSPITALS $NUM_BUCKETS

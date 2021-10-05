@@ -2965,7 +2965,7 @@ void RunHLLSketch(std::vector<std::vector<std::vector<int64_t>>> hospital_sketch
 
 std::vector<std::vector<int64_t>> FetchSketches(int hospital_number){
   static int COLS = 32;
-  std::string f_path = std::__fs::filesystem::current_path().parent_path().string() + "/sim_sketches/hospital_" + std::to_string(hospital_number) +"_sketches.csv";
+  std::string f_path = std::__fs::filesystem::current_path().string() + "/sim_sketches/hospital_" + std::to_string(hospital_number) +"_sketches.csv";
   std::cout << "\n=========== Looking for hospital sketch at " + f_path+
              " ====================="
           << std::endl;
