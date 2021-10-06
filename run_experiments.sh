@@ -5,9 +5,11 @@ if [ "$1" == "-h" ]; then
   exit 0
 fi
 
+SKETCHES_DIR=$(pwd)/sim_sketches/
+
 NUM_PATIENTS=${1:-100};
 NUM_CONDITIONS=${2:-10};
-NUM_HOSPITALS=${3:-128};
+NUM_HOSPITALS=${3:-8};
 NUM_BUCKETS=${4:-4};
 
 echo "Number of patients at each hospital: ${NUM_PATIENTS}";
@@ -28,4 +30,4 @@ cd ..;
 make;
 
 #./combine-sketches
-./run_sim $NUM_PATIENTS $NUM_CONDITIONS $NUM_HOSPITALS $NUM_BUCKETS
+./run_sim $NUM_PATIENTS $NUM_CONDITIONS $NUM_HOSPITALS $NUM_BUCKETS $SKETCHES_DIR
