@@ -61,7 +61,7 @@ def write_unary_sketches(hospital_sketch_path, hospital_numerical_sketches):
 		writer = csv.writer(csvfile)
 		for bucket in hospital_numerical_sketches:
 			val = int(bucket)
-			unary_bucket = ["1"]*val + ["0"] * (32-val)
+			unary_bucket = ["0"]*val + ["1"] * (32-val)
 			writer.writerow(unary_bucket)
 	return
 

@@ -99,38 +99,51 @@ kp1 = cc->KeyGen();
 // Generate evalmult key part for lead
 auto evalMultKey = cc->KeySwitchGen(kp1.secretKey, kp1.secretKey);
 
-// Generate evalmult key part for party 2
-auto evalMultKey2 =
-    cc->MultiKeySwitchGen(kp2.secretKey, kp2.secretKey, evalMultKey);
-
-
 // Generate evalsum key part for lead
 cc->EvalSumKeyGen(kp1.secretKey);
-
+auto evalSumKeys = std::make_shared<std::map<usint, LPEvalKey<DCRTPoly>>>(     
+    cc->GetEvalSumKeyMap(kp1.secretKey->GetKeyTag()));   
 
 // Joint public key for (s_1 + s_2)
 kp2 = cc->MultipartyKeyGen(kp1.publicKey);
 
+// Generate evalmult key part for party 2
+auto evalMultKey2 =
+    cc->MultiKeySwitchGen(kp2.secretKey, kp2.secretKey, evalMultKey);
 
 // Joint evaluation multiplication key for (s_1 + s_2)
 auto evalMult_up_to_2 = 
     cc->MultiAddEvalKeys(evalMultKey, evalMultKey2, kp2.publicKey->GetKeyTag());
+// Generate evalsum key part for part 2
+cc->EvalSumKeyGen(kp2.secretKey);
+auto evalSumKeys2 = cc->MultiEvalSumKeyGen(kp2.secretKey, evalSumKeys,
+                                           kp2.publicKey->GetKeyTag());
 
+// Joint evaluation summation key for (s_1 + s_2)
+auto evalSumKeysJoin_to_2 = cc->MultiAddEvalSumKeys(evalSumKeys, evalSumKeys2,
+                                                    kp2.publicKey->GetKeyTag());
+// Joint public key for (s_1 + s_2 + s_3)
+kp3 = cc->MultipartyKeyGen(kp2.publicKey);
 
 // Generate evalmult key part for party 3
 auto evalMultKey3 =
     cc->MultiKeySwitchGen(kp3.secretKey, kp3.secretKey, evalMult_up_to_2);
 
-// Joint public key for (s_1 + s_2 + s_3)
-kp3 = cc->MultipartyKeyGen(kp2.publicKey);
 
 // Joint evaluation multiplication key for (s_1 + s_2 + s_3)
 auto evalMult_up_to_3 = 
     cc->MultiAddEvalKeys(evalMult_up_to_2, evalMultKey3,
                          kp3.publicKey->GetKeyTag());
 
+// Generate evalsum key part for part 3
+cc->EvalSumKeyGen(kp3.secretKey);
+auto evalSumKeys3 = cc->MultiEvalSumKeyGen(kp3.secretKey, evalSumKeysJoin_to_2,
+                                           kp3.publicKey->GetKeyTag());
 
-
+// Joint evaluation summation key for (s_1 + s_2 + s_3)
+auto evalSumKeysJoin_to_3 = cc->MultiAddEvalSumKeys(evalSumKeysJoin_to_2,
+    evalSumKeys3, kp3.publicKey->GetKeyTag());
+cc->InsertEvalSumKey(evalSumKeysJoin_to_3);
 
 
 
@@ -151,42 +164,6 @@ auto evalMultPartial2 = cc->MultiAddEvalMultKeys(evalMultJoint1, evalMultJoint2,
 auto evalMultFinal = cc->MultiAddEvalMultKeys(evalMultPartial2, evalMultJoint3,
                                           kp3.publicKey->GetKeyTag());
 cc->InsertEvalMultKey({evalMultFinal});
-
-
-
-
-
-
-
-
-
-
-
-auto evalSumKeys = std::make_shared<std::map<usint, LPEvalKey<DCRTPoly>>>(     
-    cc->GetEvalSumKeyMap(kp1.secretKey->GetKeyTag()));   
-
-// Generate evalsum key part for part 2
-cc->EvalSumKeyGen(kp2.secretKey);
-auto evalSumKeys2 = cc->MultiEvalSumKeyGen(kp2.secretKey, evalSumKeys,
-                                           kp2.publicKey->GetKeyTag());
-
-// Joint evaluation summation key for (s_1 + s_2)
-auto evalSumKeysJoin_to_2 = cc->MultiAddEvalSumKeys(evalSumKeys, evalSumKeys2,
-                                                    kp2.publicKey->GetKeyTag());
-
-
-
-// Generate evalsum key part for part 3
-cc->EvalSumKeyGen(kp3.secretKey);
-auto evalSumKeys3 = cc->MultiEvalSumKeyGen(kp3.secretKey, evalSumKeysJoin_to_2,
-                                           kp3.publicKey->GetKeyTag());
-
-// Joint evaluation summation key for (s_1 + s_2 + s_3)
-auto evalSumKeysJoin_to_3 = cc->MultiAddEvalSumKeys(evalSumKeysJoin_to_2,
-    evalSumKeys3, kp3.publicKey->GetKeyTag());
-cc->InsertEvalSumKey(evalSumKeysJoin_to_3);
-
-
 
   std::cout << "Keys generated!" << std::endl;
 
