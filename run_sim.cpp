@@ -366,6 +366,9 @@ cout << plaintextMultipartyMult << endl;
 */
 
 //initialize public key container for 8 parties 
+
+
+//initialize public key container for 8 parties 
 LPKeyPair<DCRTPoly> kp1;
 LPKeyPair<DCRTPoly> kp2;
 LPKeyPair<DCRTPoly> kp3;
@@ -482,131 +485,131 @@ cc->InsertEvalMultKey({evalMultPartial8});
 cc->InsertEvalSumKey(evalSumKeysJoin_to_8);
 std::cout << "Keys generated!" << std::endl;
 
-Plaintext plaintext0_0 = cc->MakePackedPlaintext(hospital_sketches[0][j]);
+Plaintext plaintext0_0 = cc->MakePackedPlaintext(hospital_sketches[0][0]);
 Ciphertext<DCRTPoly> cipher_mult0_0_0;
 cipher_mult0_0_0 = cc->Encrypt(kp8.publicKey, plaintext0_0);
 
-Plaintext plaintext0_1 = cc->MakePackedPlaintext(hospital_sketches[0][j]);
+Plaintext plaintext0_1 = cc->MakePackedPlaintext(hospital_sketches[0][1]);
 Ciphertext<DCRTPoly> cipher_mult0_0_1;
 cipher_mult0_0_1 = cc->Encrypt(kp8.publicKey, plaintext0_1);
 
-Plaintext plaintext0_2 = cc->MakePackedPlaintext(hospital_sketches[0][j]);
+Plaintext plaintext0_2 = cc->MakePackedPlaintext(hospital_sketches[0][2]);
 Ciphertext<DCRTPoly> cipher_mult0_0_2;
 cipher_mult0_0_2 = cc->Encrypt(kp8.publicKey, plaintext0_2);
 
-Plaintext plaintext0_3 = cc->MakePackedPlaintext(hospital_sketches[0][j]);
+Plaintext plaintext0_3 = cc->MakePackedPlaintext(hospital_sketches[0][3]);
 Ciphertext<DCRTPoly> cipher_mult0_0_3;
 cipher_mult0_0_3 = cc->Encrypt(kp8.publicKey, plaintext0_3);
 
-Plaintext plaintext1_0 = cc->MakePackedPlaintext(hospital_sketches[1][j]);
+Plaintext plaintext1_0 = cc->MakePackedPlaintext(hospital_sketches[1][0]);
 Ciphertext<DCRTPoly> cipher_mult0_1_0;
 cipher_mult0_1_0 = cc->Encrypt(kp8.publicKey, plaintext1_0);
 
-Plaintext plaintext1_1 = cc->MakePackedPlaintext(hospital_sketches[1][j]);
+Plaintext plaintext1_1 = cc->MakePackedPlaintext(hospital_sketches[1][1]);
 Ciphertext<DCRTPoly> cipher_mult0_1_1;
 cipher_mult0_1_1 = cc->Encrypt(kp8.publicKey, plaintext1_1);
 
-Plaintext plaintext1_2 = cc->MakePackedPlaintext(hospital_sketches[1][j]);
+Plaintext plaintext1_2 = cc->MakePackedPlaintext(hospital_sketches[1][2]);
 Ciphertext<DCRTPoly> cipher_mult0_1_2;
 cipher_mult0_1_2 = cc->Encrypt(kp8.publicKey, plaintext1_2);
 
-Plaintext plaintext1_3 = cc->MakePackedPlaintext(hospital_sketches[1][j]);
+Plaintext plaintext1_3 = cc->MakePackedPlaintext(hospital_sketches[1][3]);
 Ciphertext<DCRTPoly> cipher_mult0_1_3;
 cipher_mult0_1_3 = cc->Encrypt(kp8.publicKey, plaintext1_3);
 
-Plaintext plaintext2_0 = cc->MakePackedPlaintext(hospital_sketches[2][j]);
+Plaintext plaintext2_0 = cc->MakePackedPlaintext(hospital_sketches[2][0]);
 Ciphertext<DCRTPoly> cipher_mult0_2_0;
 cipher_mult0_2_0 = cc->Encrypt(kp8.publicKey, plaintext2_0);
 
-Plaintext plaintext2_1 = cc->MakePackedPlaintext(hospital_sketches[2][j]);
+Plaintext plaintext2_1 = cc->MakePackedPlaintext(hospital_sketches[2][1]);
 Ciphertext<DCRTPoly> cipher_mult0_2_1;
 cipher_mult0_2_1 = cc->Encrypt(kp8.publicKey, plaintext2_1);
 
-Plaintext plaintext2_2 = cc->MakePackedPlaintext(hospital_sketches[2][j]);
+Plaintext plaintext2_2 = cc->MakePackedPlaintext(hospital_sketches[2][2]);
 Ciphertext<DCRTPoly> cipher_mult0_2_2;
 cipher_mult0_2_2 = cc->Encrypt(kp8.publicKey, plaintext2_2);
 
-Plaintext plaintext2_3 = cc->MakePackedPlaintext(hospital_sketches[2][j]);
+Plaintext plaintext2_3 = cc->MakePackedPlaintext(hospital_sketches[2][3]);
 Ciphertext<DCRTPoly> cipher_mult0_2_3;
 cipher_mult0_2_3 = cc->Encrypt(kp8.publicKey, plaintext2_3);
 
-Plaintext plaintext3_0 = cc->MakePackedPlaintext(hospital_sketches[3][j]);
+Plaintext plaintext3_0 = cc->MakePackedPlaintext(hospital_sketches[3][0]);
 Ciphertext<DCRTPoly> cipher_mult0_3_0;
 cipher_mult0_3_0 = cc->Encrypt(kp8.publicKey, plaintext3_0);
 
-Plaintext plaintext3_1 = cc->MakePackedPlaintext(hospital_sketches[3][j]);
+Plaintext plaintext3_1 = cc->MakePackedPlaintext(hospital_sketches[3][1]);
 Ciphertext<DCRTPoly> cipher_mult0_3_1;
 cipher_mult0_3_1 = cc->Encrypt(kp8.publicKey, plaintext3_1);
 
-Plaintext plaintext3_2 = cc->MakePackedPlaintext(hospital_sketches[3][j]);
+Plaintext plaintext3_2 = cc->MakePackedPlaintext(hospital_sketches[3][2]);
 Ciphertext<DCRTPoly> cipher_mult0_3_2;
 cipher_mult0_3_2 = cc->Encrypt(kp8.publicKey, plaintext3_2);
 
-Plaintext plaintext3_3 = cc->MakePackedPlaintext(hospital_sketches[3][j]);
+Plaintext plaintext3_3 = cc->MakePackedPlaintext(hospital_sketches[3][3]);
 Ciphertext<DCRTPoly> cipher_mult0_3_3;
 cipher_mult0_3_3 = cc->Encrypt(kp8.publicKey, plaintext3_3);
 
-Plaintext plaintext4_0 = cc->MakePackedPlaintext(hospital_sketches[4][j]);
+Plaintext plaintext4_0 = cc->MakePackedPlaintext(hospital_sketches[4][0]);
 Ciphertext<DCRTPoly> cipher_mult0_4_0;
 cipher_mult0_4_0 = cc->Encrypt(kp8.publicKey, plaintext4_0);
 
-Plaintext plaintext4_1 = cc->MakePackedPlaintext(hospital_sketches[4][j]);
+Plaintext plaintext4_1 = cc->MakePackedPlaintext(hospital_sketches[4][1]);
 Ciphertext<DCRTPoly> cipher_mult0_4_1;
 cipher_mult0_4_1 = cc->Encrypt(kp8.publicKey, plaintext4_1);
 
-Plaintext plaintext4_2 = cc->MakePackedPlaintext(hospital_sketches[4][j]);
+Plaintext plaintext4_2 = cc->MakePackedPlaintext(hospital_sketches[4][2]);
 Ciphertext<DCRTPoly> cipher_mult0_4_2;
 cipher_mult0_4_2 = cc->Encrypt(kp8.publicKey, plaintext4_2);
 
-Plaintext plaintext4_3 = cc->MakePackedPlaintext(hospital_sketches[4][j]);
+Plaintext plaintext4_3 = cc->MakePackedPlaintext(hospital_sketches[4][3]);
 Ciphertext<DCRTPoly> cipher_mult0_4_3;
 cipher_mult0_4_3 = cc->Encrypt(kp8.publicKey, plaintext4_3);
 
-Plaintext plaintext5_0 = cc->MakePackedPlaintext(hospital_sketches[5][j]);
+Plaintext plaintext5_0 = cc->MakePackedPlaintext(hospital_sketches[5][0]);
 Ciphertext<DCRTPoly> cipher_mult0_5_0;
 cipher_mult0_5_0 = cc->Encrypt(kp8.publicKey, plaintext5_0);
 
-Plaintext plaintext5_1 = cc->MakePackedPlaintext(hospital_sketches[5][j]);
+Plaintext plaintext5_1 = cc->MakePackedPlaintext(hospital_sketches[5][1]);
 Ciphertext<DCRTPoly> cipher_mult0_5_1;
 cipher_mult0_5_1 = cc->Encrypt(kp8.publicKey, plaintext5_1);
 
-Plaintext plaintext5_2 = cc->MakePackedPlaintext(hospital_sketches[5][j]);
+Plaintext plaintext5_2 = cc->MakePackedPlaintext(hospital_sketches[5][2]);
 Ciphertext<DCRTPoly> cipher_mult0_5_2;
 cipher_mult0_5_2 = cc->Encrypt(kp8.publicKey, plaintext5_2);
 
-Plaintext plaintext5_3 = cc->MakePackedPlaintext(hospital_sketches[5][j]);
+Plaintext plaintext5_3 = cc->MakePackedPlaintext(hospital_sketches[5][3]);
 Ciphertext<DCRTPoly> cipher_mult0_5_3;
 cipher_mult0_5_3 = cc->Encrypt(kp8.publicKey, plaintext5_3);
 
-Plaintext plaintext6_0 = cc->MakePackedPlaintext(hospital_sketches[6][j]);
+Plaintext plaintext6_0 = cc->MakePackedPlaintext(hospital_sketches[6][0]);
 Ciphertext<DCRTPoly> cipher_mult0_6_0;
 cipher_mult0_6_0 = cc->Encrypt(kp8.publicKey, plaintext6_0);
 
-Plaintext plaintext6_1 = cc->MakePackedPlaintext(hospital_sketches[6][j]);
+Plaintext plaintext6_1 = cc->MakePackedPlaintext(hospital_sketches[6][1]);
 Ciphertext<DCRTPoly> cipher_mult0_6_1;
 cipher_mult0_6_1 = cc->Encrypt(kp8.publicKey, plaintext6_1);
 
-Plaintext plaintext6_2 = cc->MakePackedPlaintext(hospital_sketches[6][j]);
+Plaintext plaintext6_2 = cc->MakePackedPlaintext(hospital_sketches[6][2]);
 Ciphertext<DCRTPoly> cipher_mult0_6_2;
 cipher_mult0_6_2 = cc->Encrypt(kp8.publicKey, plaintext6_2);
 
-Plaintext plaintext6_3 = cc->MakePackedPlaintext(hospital_sketches[6][j]);
+Plaintext plaintext6_3 = cc->MakePackedPlaintext(hospital_sketches[6][3]);
 Ciphertext<DCRTPoly> cipher_mult0_6_3;
 cipher_mult0_6_3 = cc->Encrypt(kp8.publicKey, plaintext6_3);
 
-Plaintext plaintext7_0 = cc->MakePackedPlaintext(hospital_sketches[7][j]);
+Plaintext plaintext7_0 = cc->MakePackedPlaintext(hospital_sketches[7][0]);
 Ciphertext<DCRTPoly> cipher_mult0_7_0;
 cipher_mult0_7_0 = cc->Encrypt(kp8.publicKey, plaintext7_0);
 
-Plaintext plaintext7_1 = cc->MakePackedPlaintext(hospital_sketches[7][j]);
+Plaintext plaintext7_1 = cc->MakePackedPlaintext(hospital_sketches[7][1]);
 Ciphertext<DCRTPoly> cipher_mult0_7_1;
 cipher_mult0_7_1 = cc->Encrypt(kp8.publicKey, plaintext7_1);
 
-Plaintext plaintext7_2 = cc->MakePackedPlaintext(hospital_sketches[7][j]);
+Plaintext plaintext7_2 = cc->MakePackedPlaintext(hospital_sketches[7][2]);
 Ciphertext<DCRTPoly> cipher_mult0_7_2;
 cipher_mult0_7_2 = cc->Encrypt(kp8.publicKey, plaintext7_2);
 
-Plaintext plaintext7_3 = cc->MakePackedPlaintext(hospital_sketches[7][j]);
+Plaintext plaintext7_3 = cc->MakePackedPlaintext(hospital_sketches[7][3]);
 Ciphertext<DCRTPoly> cipher_mult0_7_3;
 cipher_mult0_7_3 = cc->Encrypt(kp8.publicKey, plaintext7_3);
 
@@ -652,26 +655,26 @@ auto cipher_mult3_0_3 = cc->EvalMult(cipher_mult2_0_3, cipher_mult2_1_3);
 //Decrypting 
 vector<Ciphertext<DCRTPoly>> partialCiphertextVecMult;
 auto ciphertextPartial0 = cc->MultipartyDecryptLead(kp1.secretKey, {cipher_mult3_0_0});
-partialCiphertextVecMult.push_back(ciphertextPartial0[0]);auto ciphertextPartial1 = cc->MultipartyDecryptMain(kp2.secretKey, {cipher_mult3_0});
+partialCiphertextVecMult.push_back(ciphertextPartial0[0]);auto ciphertextPartial1 = cc->MultipartyDecryptMain(kp2.secretKey, {cipher_mult3_0_0});
 partialCiphertextVecMult.push_back(ciphertextPartial1[0]);
-auto ciphertextPartial2 = cc->MultipartyDecryptMain(kp3.secretKey, {cipher_mult3_0});
+auto ciphertextPartial2 = cc->MultipartyDecryptMain(kp3.secretKey, {cipher_mult3_0_0});
 partialCiphertextVecMult.push_back(ciphertextPartial2[0]);
-auto ciphertextPartial3 = cc->MultipartyDecryptMain(kp4.secretKey, {cipher_mult3_0});
+auto ciphertextPartial3 = cc->MultipartyDecryptMain(kp4.secretKey, {cipher_mult3_0_0});
 partialCiphertextVecMult.push_back(ciphertextPartial3[0]);
-auto ciphertextPartial4 = cc->MultipartyDecryptMain(kp5.secretKey, {cipher_mult3_0});
+auto ciphertextPartial4 = cc->MultipartyDecryptMain(kp5.secretKey, {cipher_mult3_0_0});
 partialCiphertextVecMult.push_back(ciphertextPartial4[0]);
-auto ciphertextPartial5 = cc->MultipartyDecryptMain(kp6.secretKey, {cipher_mult3_0});
+auto ciphertextPartial5 = cc->MultipartyDecryptMain(kp6.secretKey, {cipher_mult3_0_0});
 partialCiphertextVecMult.push_back(ciphertextPartial5[0]);
-auto ciphertextPartial6 = cc->MultipartyDecryptMain(kp7.secretKey, {cipher_mult3_0});
+auto ciphertextPartial6 = cc->MultipartyDecryptMain(kp7.secretKey, {cipher_mult3_0_0});
 partialCiphertextVecMult.push_back(ciphertextPartial6[0]);
-auto ciphertextPartial7 = cc->MultipartyDecryptMain(kp8.secretKey, {cipher_mult3_0});
+auto ciphertextPartial7 = cc->MultipartyDecryptMain(kp8.secretKey, {cipher_mult3_0_0});
 partialCiphertextVecMult.push_back(ciphertextPartial7[0]);
 
 Plaintext plaintextMultipartyMult;
 
 cc->MultipartyDecryptFusion(partialCiphertextVecMult, &plaintextMultipartyMult);
 
-plaintextMultipartyMult->SetLength(plaintext0->GetLength());
+plaintextMultipartyMult->SetLength(plaintext0_0->GetLength());
 cout << plaintextMultipartyMult << endl;
 
 
