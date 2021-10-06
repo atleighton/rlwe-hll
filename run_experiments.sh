@@ -27,4 +27,5 @@ cmake ..;
 cd ..;
 make;
 
+#./combine-sketches
 ./run_sim $NUM_PATIENTS $NUM_CONDITIONS $NUM_HOSPITALS $NUM_BUCKETS

@@ -143,9 +143,12 @@ auto evalMultKey = cc->KeySwitchGen(kp1.secretKey, kp1.secretKey);
 // Generate evalsum key part for lead
 cc->EvalSumKeyGen(kp1.secretKey);
 auto evalSumKeys = std::make_shared<std::map<usint, LPEvalKey<DCRTPoly>>>(cc->GetEvalSumKeyMap(kp1.secretKey->GetKeyTag()));
+
+
 kp2 = cc->MultipartyKeyGen(kp1.publicKey);
 auto evalMultKey2 = cc->MultiKeySwitchGen(kp2.secretKey, kp2.secretKey, evalMultKey);
 auto evalMult_up_to_2 = cc->MultiAddEvalKeys(evalMultKey, evalMultKey2, kp2.publicKey->GetKeyTag());
+
 cc->EvalSumKeyGen(kp2.secretKey); auto evalSumKeys2 = cc->MultiEvalSumKeyGen(kp2.secretKey, evalSumKeys,kp2.publicKey->GetKeyTag());
 auto evalSumKeysJoin_to_2 = cc->MultiAddEvalSumKeys(evalSumKeys, evalSumKeys2, kp2.publicKey->GetKeyTag());
 
@@ -154,7 +157,7 @@ kp3 = cc->MultipartyKeyGen(kp2.publicKey);
 
 // Generate evalmult key part for party 3
 auto evalMultKey3 = cc->MultiKeySwitchGen(kp3.secretKey, kp3.secretKey, evalMult_up_to_2);
-auto evalMult_up_to_3 = cc->MultiAddEvalKeys(evalMult_up_to_2, evalMultKey3, kp2.publicKey->GetKeyTag());
+auto evalMult_up_to_3 = cc->MultiAddEvalKeys(evalMult_up_to_2, evalMultKey3, kp3.publicKey->GetKeyTag());
 
 // gen eval sum keys
 cc->EvalSumKeyGen(kp3.secretKey);
@@ -166,7 +169,7 @@ kp4 = cc->MultipartyKeyGen(kp3.publicKey);
 
 // Generate evalmult key part for party 4
 auto evalMultKey4 = cc->MultiKeySwitchGen(kp4.secretKey, kp4.secretKey, evalMult_up_to_3);
-auto evalMult_up_to_4 = cc->MultiAddEvalKeys(evalMult_up_to_3, evalMultKey4, kp3.publicKey->GetKeyTag());
+auto evalMult_up_to_4 = cc->MultiAddEvalKeys(evalMult_up_to_3, evalMultKey4, kp4.publicKey->GetKeyTag());
 
 // gen eval sum keys
 cc->EvalSumKeyGen(kp4.secretKey);
@@ -178,7 +181,7 @@ kp5 = cc->MultipartyKeyGen(kp4.publicKey);
 
 // Generate evalmult key part for party 5
 auto evalMultKey5 = cc->MultiKeySwitchGen(kp5.secretKey, kp5.secretKey, evalMult_up_to_4);
-auto evalMult_up_to_5 = cc->MultiAddEvalKeys(evalMult_up_to_4, evalMultKey5, kp4.publicKey->GetKeyTag());
+auto evalMult_up_to_5 = cc->MultiAddEvalKeys(evalMult_up_to_4, evalMultKey5, kp5.publicKey->GetKeyTag());
 
 // gen eval sum keys
 cc->EvalSumKeyGen(kp5.secretKey);
@@ -190,7 +193,7 @@ kp6 = cc->MultipartyKeyGen(kp5.publicKey);
 
 // Generate evalmult key part for party 6
 auto evalMultKey6 = cc->MultiKeySwitchGen(kp6.secretKey, kp6.secretKey, evalMult_up_to_5);
-auto evalMult_up_to_6 = cc->MultiAddEvalKeys(evalMult_up_to_5, evalMultKey6, kp5.publicKey->GetKeyTag());
+auto evalMult_up_to_6 = cc->MultiAddEvalKeys(evalMult_up_to_5, evalMultKey6, kp6.publicKey->GetKeyTag());
 
 // gen eval sum keys
 cc->EvalSumKeyGen(kp6.secretKey);
@@ -202,7 +205,7 @@ kp7 = cc->MultipartyKeyGen(kp6.publicKey);
 
 // Generate evalmult key part for party 7
 auto evalMultKey7 = cc->MultiKeySwitchGen(kp7.secretKey, kp7.secretKey, evalMult_up_to_6);
-auto evalMult_up_to_7 = cc->MultiAddEvalKeys(evalMult_up_to_6, evalMultKey7, kp6.publicKey->GetKeyTag());
+auto evalMult_up_to_7 = cc->MultiAddEvalKeys(evalMult_up_to_6, evalMultKey7, kp7.publicKey->GetKeyTag());
 
 // gen eval sum keys
 cc->EvalSumKeyGen(kp7.secretKey);
@@ -214,27 +217,50 @@ kp8 = cc->MultipartyKeyGen(kp7.publicKey);
 
 // Generate evalmult key part for party 8
 auto evalMultKey8 = cc->MultiKeySwitchGen(kp8.secretKey, kp8.secretKey, evalMult_up_to_7);
-auto evalMult_up_to_8 = cc->MultiAddEvalKeys(evalMult_up_to_7, evalMultKey8, kp7.publicKey->GetKeyTag());
+auto evalMult_up_to_8 = cc->MultiAddEvalKeys(evalMult_up_to_7, evalMultKey8, kp8.publicKey->GetKeyTag());
+
+
+
+std::cout << "First mult key gen done " << depth << std::endl;
+
 
 // gen eval sum keys
 cc->EvalSumKeyGen(kp8.secretKey);
 auto evalSumKeys8 = cc->MultiEvalSumKeyGen(kp8.secretKey, evalSumKeysJoin_to_7, kp8.publicKey->GetKeyTag());
 auto evalSumKeysJoin_to_8 = cc->MultiAddEvalSumKeys(evalSumKeysJoin_to_7, evalSumKeys8, kp8.publicKey->GetKeyTag());
+
+
 auto evalMultJoint1 = cc->MultiMultEvalKey(evalMult_up_to_8, kp1.secretKey, kp8.publicKey->GetKeyTag());
+
 auto evalMultJoint2 = cc->MultiMultEvalKey(evalMult_up_to_8, kp2.secretKey, kp8.publicKey->GetKeyTag());
 auto evalMultPartial2 = cc->MultiAddEvalMultKeys(evalMultJoint1, evalMultJoint2, kp8.publicKey->GetKeyTag());
+
+
 auto evalMultJoint3 = cc->MultiMultEvalKey(evalMult_up_to_8, kp3.secretKey, kp8.publicKey->GetKeyTag());
-auto evalMultPartial3 = cc->MultiAddEvalMultKeys(evalMultJoint2, evalMultJoint3, kp8.publicKey->GetKeyTag());
+auto evalMultPartial3 = cc->MultiAddEvalMultKeys(evalMultPartial2, evalMultJoint3, kp8.publicKey->GetKeyTag());
+
+
 auto evalMultJoint4 = cc->MultiMultEvalKey(evalMult_up_to_8, kp4.secretKey, kp8.publicKey->GetKeyTag());
-auto evalMultPartial4 = cc->MultiAddEvalMultKeys(evalMultJoint3, evalMultJoint4, kp8.publicKey->GetKeyTag());
+auto evalMultPartial4 = cc->MultiAddEvalMultKeys(evalMultPartial3, evalMultJoint4, kp8.publicKey->GetKeyTag());
+
+
 auto evalMultJoint5 = cc->MultiMultEvalKey(evalMult_up_to_8, kp5.secretKey, kp8.publicKey->GetKeyTag());
-auto evalMultPartial5 = cc->MultiAddEvalMultKeys(evalMultJoint4, evalMultJoint5, kp8.publicKey->GetKeyTag());
+auto evalMultPartial5 = cc->MultiAddEvalMultKeys(evalMultPartial4, evalMultJoint5, kp8.publicKey->GetKeyTag());
+
+
 auto evalMultJoint6 = cc->MultiMultEvalKey(evalMult_up_to_8, kp6.secretKey, kp8.publicKey->GetKeyTag());
-auto evalMultPartial6 = cc->MultiAddEvalMultKeys(evalMultJoint5, evalMultJoint6, kp8.publicKey->GetKeyTag());
+auto evalMultPartial6 = cc->MultiAddEvalMultKeys(evalMultPartial5, evalMultJoint6, kp8.publicKey->GetKeyTag());
+
+
 auto evalMultJoint7 = cc->MultiMultEvalKey(evalMult_up_to_8, kp7.secretKey, kp8.publicKey->GetKeyTag());
-auto evalMultPartial7 = cc->MultiAddEvalMultKeys(evalMultJoint6, evalMultJoint7, kp8.publicKey->GetKeyTag());
+auto evalMultPartial7 = cc->MultiAddEvalMultKeys(evalMultPartial6, evalMultJoint7, kp8.publicKey->GetKeyTag());
+
 auto evalMultJoint8 = cc->MultiMultEvalKey(evalMult_up_to_8, kp8.secretKey, kp8.publicKey->GetKeyTag());
-auto evalMultPartial8 = cc->MultiAddEvalMultKeys(evalMultJoint7, evalMultJoint8, kp8.publicKey->GetKeyTag());
+auto evalMultPartial8 = cc->MultiAddEvalMultKeys(evalMultPartial7, evalMultJoint8, kp8.publicKey->GetKeyTag());
+
+
+std::cout << "Eval mult joining done" << depth << std::endl;
+
 
 // insert final mult key
 cc->InsertEvalMultKey({evalMultPartial8});
@@ -243,46 +269,72 @@ cc->InsertEvalMultKey({evalMultPartial8});
 cc->InsertEvalSumKey(evalSumKeysJoin_to_8);
 std::cout << "Keys generated!" << std::endl;
 
+
+std::cout << "Inserting keys" << depth << std::endl;
+
+vector<Ciphertext<DCRTPoly>> ciphertexts;
+
 Plaintext plaintext0 = cc->MakePackedPlaintext(hospital_sketches[0][0]);
 Ciphertext<DCRTPoly> cipher_mult0_0;
-cipher_mult0_0 = cc->Encrypt(kp7.publicKey, plaintext0);
+cipher_mult0_0 = cc->Encrypt(kp8.publicKey, plaintext0);
+ciphertexts.push_back(cipher_mult0_0);
 
 Plaintext plaintext1 = cc->MakePackedPlaintext(hospital_sketches[1][0]);
 Ciphertext<DCRTPoly> cipher_mult0_1;
-cipher_mult0_1 = cc->Encrypt(kp7.publicKey, plaintext1);
+cipher_mult0_1 = cc->Encrypt(kp8.publicKey, plaintext1);
+ciphertexts.push_back(cipher_mult0_1);
 
 Plaintext plaintext2 = cc->MakePackedPlaintext(hospital_sketches[2][0]);
 Ciphertext<DCRTPoly> cipher_mult0_2;
-cipher_mult0_2 = cc->Encrypt(kp7.publicKey, plaintext2);
+cipher_mult0_2 = cc->Encrypt(kp8.publicKey, plaintext2);
+ciphertexts.push_back(cipher_mult0_2);
 
 Plaintext plaintext3 = cc->MakePackedPlaintext(hospital_sketches[3][0]);
 Ciphertext<DCRTPoly> cipher_mult0_3;
-cipher_mult0_3 = cc->Encrypt(kp7.publicKey, plaintext3);
+cipher_mult0_3 = cc->Encrypt(kp8.publicKey, plaintext3);
+ciphertexts.push_back(cipher_mult0_3);
 
 Plaintext plaintext4 = cc->MakePackedPlaintext(hospital_sketches[4][0]);
 Ciphertext<DCRTPoly> cipher_mult0_4;
-cipher_mult0_4 = cc->Encrypt(kp7.publicKey, plaintext4);
+cipher_mult0_4 = cc->Encrypt(kp8.publicKey, plaintext4);
+ciphertexts.push_back(cipher_mult0_4);
 
 Plaintext plaintext5 = cc->MakePackedPlaintext(hospital_sketches[5][0]);
 Ciphertext<DCRTPoly> cipher_mult0_5;
-cipher_mult0_5 = cc->Encrypt(kp7.publicKey, plaintext5);
+cipher_mult0_5 = cc->Encrypt(kp8.publicKey, plaintext5);
+ciphertexts.push_back(cipher_mult0_5);
 
 Plaintext plaintext6 = cc->MakePackedPlaintext(hospital_sketches[6][0]);
 Ciphertext<DCRTPoly> cipher_mult0_6;
-cipher_mult0_6 = cc->Encrypt(kp7.publicKey, plaintext6);
+cipher_mult0_6 = cc->Encrypt(kp8.publicKey, plaintext6);
+ciphertexts.push_back(cipher_mult0_6);
 
 Plaintext plaintext7 = cc->MakePackedPlaintext(hospital_sketches[7][0]);
 Ciphertext<DCRTPoly> cipher_mult0_7;
-cipher_mult0_7 = cc->Encrypt(kp7.publicKey, plaintext7);
+cipher_mult0_7 = cc->Encrypt(kp8.publicKey, plaintext7);
+ciphertexts.push_back(cipher_mult0_7);
+
+
+std::cout << " Loaded plaintexts " << depth << std::endl;
+
+
+
+std::cout << "Preforming multiplication " << depth << std::endl;
 
 // Tree mult - final product stored in cipher_mult0
+std::cout << "Round 1 mults" << depth << std::endl;
 auto cipher_mult1_0 = cc->EvalMult(cipher_mult0_0, cipher_mult0_4);
+std::cout << "0000000000 " << depth << std::endl;
 auto cipher_mult1_1 = cc->EvalMult(cipher_mult0_1, cipher_mult0_5);
 auto cipher_mult1_2 = cc->EvalMult(cipher_mult0_2, cipher_mult0_6);
 auto cipher_mult1_3 = cc->EvalMult(cipher_mult0_3, cipher_mult0_7);
+std::cout << "Round 2 mults" << depth << std::endl;
 auto cipher_mult2_0 = cc->EvalMult(cipher_mult1_0, cipher_mult1_2);
 auto cipher_mult2_1 = cc->EvalMult(cipher_mult1_1, cipher_mult1_3);
 auto cipher_mult3_0 = cc->EvalMult(cipher_mult2_0, cipher_mult2_1);
+
+
+  std::cout << "decrypting" << depth << std::endl;
 
 //Decrypting 
 vector<Ciphertext<DCRTPoly>> partialCiphertextVecMult;
