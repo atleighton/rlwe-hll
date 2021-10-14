@@ -34,7 +34,7 @@ using namespace std;
 using namespace lbcrypto;
 
 
-void RunHLLSketch(std::vector<std::vector<std::vector<int64_t>>> hospital_sketches, int num_hospitals, int num_buckets);
+void RunHLLSketch(std::vector<std::vector<std::vector<int64_t>>> hospital_sketches, int num_hospitals, int num_buckets, std::string sketch_dir);
 std::vector<std::vector<int64_t>> FetchSketches(int hospital_number, std::string sketch_dir);
 
 
@@ -62,14 +62,14 @@ int main(int argc, char *argv[]) {
   std::cout << "\n=================RUNNING FOR HLL Sketches====================="
           << std::endl;
 
-  RunHLLSketch(hospital_sketches, num_hospitals, num_buckets);
+  RunHLLSketch(hospital_sketches, num_hospitals, num_buckets, sketch_dir);
 
   return 0;
 }
 
 
 
-void RunHLLSketch(std::vector<std::vector<std::vector<int64_t>>> hospital_sketches, int num_hospitals, int num_buckets) {
+void RunHLLSketch(std::vector<std::vector<std::vector<int64_t>>> hospital_sketches, int num_hospitals, int num_buckets, std::string sketch_dir) {
   uint32_t plaintextModulus = 65537; //TODO ???
   double sigma = 3.2;
   SecurityLevel securityLevel = HEStd_128_classic; // TODO ???
@@ -652,10 +652,72 @@ auto cipher_mult2_0_3 = cc->EvalMult(cipher_mult1_0_3, cipher_mult1_2_3);
 auto cipher_mult2_1_3 = cc->EvalMult(cipher_mult1_1_3, cipher_mult1_3_3);
 auto cipher_mult3_0_3 = cc->EvalMult(cipher_mult2_0_3, cipher_mult2_1_3);
 
+vector<Ciphertext<DCRTPoly>> ciphertextSums;
+auto ciphertextSum0 = cc->EvalSum(cipher_mult3_0_0, 32);
+ciphertextSums.push_back(ciphertextSum0);
+auto ciphertextSum1 = cc->EvalSum(cipher_mult3_0_1, 32);
+ciphertextSums.push_back(ciphertextSum1);
+auto ciphertextSum2 = cc->EvalSum(cipher_mult3_0_2, 32);
+ciphertextSums.push_back(ciphertextSum2);
+auto ciphertextSum3 = cc->EvalSum(cipher_mult3_0_3, 32);
+ciphertextSums.push_back(ciphertextSum3);
+
+
+auto ciphertextFinalSum = cc->EvalAddMany(ciphertextSums);
+
+std::vector<int64_t> modifier = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+Plaintext plaintext_mask = cc->MakePackedPlaintext(modifier);
+Ciphertext<DCRTPoly> cipher_mask;
+cipher_mask = cc->Encrypt(kp8.publicKey, plaintext_mask);
+
+auto ciphertextFinal = cc->EvalMult(cipher_mask, ciphertextFinalSum);
+
+
+
+/*
+std::vector<int64_t> modifier = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+Plaintext plaintext_modifier = cc->MakePackedPlaintext(modifier);
+Ciphertext<DCRTPoly> cipher_modifier;
+cipher_modifier = cc->Encrypt(kp8.publicKey, plaintext_modifier);
+
+vector<Ciphertext<DCRTPoly>> partialSums;
+partialSums.push_back(ciphertextSum0[0]);
+partialSums.push_back(ciphertextSum1[0]);
+partialSums.push_back(ciphertextSum2[0]);
+partialSums.push_back(ciphertextSum3[0]);
+
+auto aggregateSums = cc->EvalSum(cipher_mult3_0_0, num_buckets);
+Ciphertext<DCRTPoly> output = aggregateSums[0];
+*/
+
+
+
+
+
+vector<Ciphertext<DCRTPoly>> partialCiphertextVecMult1;
+auto ciphertextPartial01 = cc->MultipartyDecryptLead(kp1.secretKey, {ciphertextFinal});
+partialCiphertextVecMult1.push_back(ciphertextPartial01[0]);
+auto ciphertextPartial11 = cc->MultipartyDecryptMain(kp2.secretKey, {ciphertextFinal});
+partialCiphertextVecMult1.push_back(ciphertextPartial11[0]);
+auto ciphertextPartial21 = cc->MultipartyDecryptMain(kp3.secretKey, {ciphertextFinal});
+partialCiphertextVecMult1.push_back(ciphertextPartial21[0]);
+auto ciphertextPartial31 = cc->MultipartyDecryptMain(kp4.secretKey, {ciphertextFinal});
+partialCiphertextVecMult1.push_back(ciphertextPartial31[0]);
+auto ciphertextPartial41 = cc->MultipartyDecryptMain(kp5.secretKey, {ciphertextFinal});
+partialCiphertextVecMult1.push_back(ciphertextPartial41[0]);
+auto ciphertextPartial51 = cc->MultipartyDecryptMain(kp6.secretKey, {ciphertextFinal});
+partialCiphertextVecMult1.push_back(ciphertextPartial51[0]);
+auto ciphertextPartial61 = cc->MultipartyDecryptMain(kp7.secretKey, {ciphertextFinal});
+partialCiphertextVecMult1.push_back(ciphertextPartial61[0]);
+auto ciphertextPartial71 = cc->MultipartyDecryptMain(kp8.secretKey, {ciphertextFinal});
+partialCiphertextVecMult1.push_back(ciphertextPartial71[0]);
+
+
 //Decrypting 
 vector<Ciphertext<DCRTPoly>> partialCiphertextVecMult;
 auto ciphertextPartial0 = cc->MultipartyDecryptLead(kp1.secretKey, {cipher_mult3_0_0});
-partialCiphertextVecMult.push_back(ciphertextPartial0[0]);auto ciphertextPartial1 = cc->MultipartyDecryptMain(kp2.secretKey, {cipher_mult3_0_0});
+partialCiphertextVecMult.push_back(ciphertextPartial0[0]);
+auto ciphertextPartial1 = cc->MultipartyDecryptMain(kp2.secretKey, {cipher_mult3_0_0});
 partialCiphertextVecMult.push_back(ciphertextPartial1[0]);
 auto ciphertextPartial2 = cc->MultipartyDecryptMain(kp3.secretKey, {cipher_mult3_0_0});
 partialCiphertextVecMult.push_back(ciphertextPartial2[0]);
@@ -672,12 +734,25 @@ partialCiphertextVecMult.push_back(ciphertextPartial7[0]);
 
 Plaintext plaintextMultipartyMult;
 
+Plaintext plaintextMultipartyMult1;
+
+
 cc->MultipartyDecryptFusion(partialCiphertextVecMult, &plaintextMultipartyMult);
+
+cc->MultipartyDecryptFusion(partialCiphertextVecMult1, &plaintextMultipartyMult1);
 
 plaintextMultipartyMult->SetLength(plaintext0_0->GetLength());
 cout << plaintextMultipartyMult << endl;
 
+plaintextMultipartyMult1->SetLength(plaintext0_0->GetLength());
+cout << plaintextMultipartyMult1 << endl;
 
+//Write out
+fstream myfile;
+std::string f_path = sketch_dir + "tmp.txt";
+myfile.open(f_path, ios::out);
+myfile << plaintextMultipartyMult1;
+myfile.close();
 }
 
 

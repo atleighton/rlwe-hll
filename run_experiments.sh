@@ -31,3 +31,6 @@ make;
 
 #./combine-sketches
 ./run_sim $NUM_PATIENTS $NUM_CONDITIONS $NUM_HOSPITALS $NUM_BUCKETS $SKETCHES_DIR
+#./threshold-fhe-demo
+
+python3 approximateCardinality.py
