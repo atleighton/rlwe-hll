@@ -185,6 +185,7 @@ cc->InsertEvalMultKey({evalMultFinal});
   Ciphertext<DCRTPoly> ciphertext1;
   Ciphertext<DCRTPoly> ciphertext2;
   Ciphertext<DCRTPoly> ciphertext3;
+  std::vector<Ciphertext<DCRTPoly>> Ciphertexts;
 
   ciphertext1 = cc->Encrypt(kp3.publicKey, plaintext1);
   ciphertext2 = cc->Encrypt(kp3.publicKey, plaintext2);

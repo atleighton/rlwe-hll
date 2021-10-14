@@ -17,6 +17,7 @@ echo "Number of conditions per patient: ${NUM_CONDITIONS}";
 echo "Number of hospitals: ${NUM_HOSPITALS}";
 echo "Number of hash buckets: ${NUM_BUCKETS}";
 
+python3 gen_cpp_code.py --num_hospitals $NUM_HOSPITALS --num_buckets $NUM_BUCKETS
 
 python generate_sim_data.py --num_patients $NUM_PATIENTS --num_conditions $NUM_CONDITIONS --num_hospitals $NUM_HOSPITALS;
 
@@ -29,7 +30,7 @@ cmake ..;
 cd ..;
 make;
 
-python3 gen_cpp_code.py
+
 
 #./combine-sketches
 #./run_sim $NUM_PATIENTS $NUM_CONDITIONS $NUM_HOSPITALS $NUM_BUCKETS $SKETCHES_DIR
