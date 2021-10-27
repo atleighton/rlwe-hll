@@ -7,10 +7,10 @@ fi
 
 SKETCHES_DIR=$(pwd)/sim_sketches/
 
-NUM_PATIENTS=${1:-100};
+NUM_PATIENTS=${1:-10000};
 NUM_CONDITIONS=${2:-10};
 NUM_HOSPITALS=${3:-8};
-NUM_BUCKETS=${4:-4};
+NUM_BUCKETS=${4:-128};
 
 echo "Number of patients at each hospital: ${NUM_PATIENTS}";
 echo "Number of conditions per patient: ${NUM_CONDITIONS}";
