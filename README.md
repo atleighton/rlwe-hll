@@ -1,7 +1,7 @@
 # rlwe-hll
 
 
-## Instructions for ourselves (delete later)
+## Instructions
 General overview of system:
 https://gitlab.com/palisade/palisade-release/blob/master/doc/palisade_manual.pdf
 
