@@ -18,7 +18,7 @@ make
 ./threshold-fhe-demo
 ```
 
-Once PALISADE is up and running, compile code as shown here using cmake. To run simulation, simply 
+Once PALISADE is up and running, compile code as shown here using cmake. To simulate protocol, run 
 
 ```
 ./run_experiments.sh ${NUM_PATIENTS} ${NUM_CONDITIONS} ${NUM_HOSPITALS} ${NUM_BUCKETS}
