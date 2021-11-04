@@ -20,8 +20,8 @@ make
 
 Once PALISADE is up and running, compile code as shown here using cmake. To run simulation, simply 
 
-'''
+```
 ./run_experiments.sh ${NUM_PATIENTS} ${NUM_CONDITIONS} ${NUM_HOSPITALS} ${NUM_BUCKETS}
-'''
+```
 
 ${NUM_PATIENTS} and ${NUM_CONDITIONS} are placeholder variables to simulate data. ${NUM_HOSPITALS} is the number of hospitals in the simulation, each with ${NUM_PATIENTS} patients. ${NUM_BUCKETS} is the number of sketch buckets. Default value is 4 parties with 64 buckets - this should run quickly. Increasing #buckets and #parties will increase compile time a lot and runtime a little. 
