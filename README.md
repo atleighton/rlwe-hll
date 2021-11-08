@@ -1,7 +1,7 @@
 # rlwe-hll
 
 
-## Instructions
+## Instructions 1.1
 General overview of system:
 https://gitlab.com/palisade/palisade-release/blob/master/doc/palisade_manual.pdf
 
@@ -17,6 +17,8 @@ cmake ..
 make
 ./threshold-fhe-demo
 ```
+
+## Instructions 1.2
 
 Once PALISADE is up and running, compile code as shown here using cmake. To simulate protocol, run 
 
