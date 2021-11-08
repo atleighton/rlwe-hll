@@ -20,7 +20,7 @@ make
 
 ## Instructions 1.2
 
-Once PALISADE is up and running, compile code as shown here using cmake. To simulate protocol, run 
+Once PALISADE examples are up and running, compile code as shown here using cmake. To simulate protocol, in home directory run
 
 ```
 ./run_experiments.sh ${NUM_PATIENTS} ${NUM_CONDITIONS} ${NUM_HOSPITALS} ${NUM_BUCKETS}
