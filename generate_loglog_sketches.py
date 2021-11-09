@@ -40,7 +40,7 @@ def load_data(input_dir, num_patients, num_conditions, num_hospitals):
 def log_log(hospital_path, num_buckets):
 	hospital_numerical_sketches = np.zeros(num_buckets)
 	for row in readCSV(hospital_path):
-		hex_digest = hashlib.sha1(row["SSN"]).hexdigest()
+		hex_digest = hashlib.sha1(row["SSN"].encode('utf-8')).hexdigest()
 		binary_hash = bin(int(hex_digest, 16))[2:].zfill(160)
 		bucket = int(binary_hash[:64], 2)%num_buckets
 		leading_zeros = 0
