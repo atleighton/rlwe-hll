@@ -71,4 +71,4 @@ make
 
 
 ## Acknowledgment
-Our code is heavily based off of the Palisade tutorial `threshold-fhe.cpp` by Yuriy Polyakov: https://gitlab.com/palisade/palisade-development/-/blob/master/src/pke/examples/threshold-fhe.cpp
+We'd like to thank Yuriy Polyakov for his excellent webinars and tutorials at: https://gitlab.com/palisade/palisade-development/-/blob/master/src/pke/examples/
