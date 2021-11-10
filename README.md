@@ -20,7 +20,7 @@ cmake ..
 make
 sudo make install
 ```
-You may wish to do a parallel compilation with `make -j8`, and also testing that the build completed correctly `make testall`.
+You may wish to do a parallel compilation with `make -j4` (compiling on 4 cores), and also testing that the build completed correctly `make testall`.
 
 For full detail on Palisade instructions: https://gitlab.com/palisade/palisade-development/-/wikis/Instructions-for-building-PALISADE-in-Linux)
 
