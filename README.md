@@ -35,7 +35,7 @@ Once PALISADE examples are up and running, to simulate protocol, in the rlwe-hll
 ```
 We note that it in our benchmarking prototype, we actually hardcode the number of parties and buckets into the C++ source by using Python to generate a C++ file to compile, in addition to using these parameters to generate the simulated data.
 ${NUM_PATIENTS} and ${NUM_CONDITIONS} are placeholder variables to simulate data; we use 10,000 and 10 respectively. ${NUM_HOSPITALS} is the number of hospitals in the simulation, each with ${NUM_PATIENTS} patients. ${NUM_BUCKETS} is the number of sketch buckets. Default value is 2 parties with 256 buckets - this should run quickly. Increasing #buckets and #parties will increase compile time a lot and runtime a little.
-Note that the increase in compilation time is a side-effect of the simplified benchmarking procedure we use, and not inherent to the protocol; furthermore, it is of course entirely in preprocessing, so we did not bother optimizing it. **The 2 party 256 bucket case should compile in minutes, but the 16 parties and 512 case could take over an hour just to compile**.
+Note that the increase in compilation time is a side-effect of the simplified benchmarking procedure we use, and not inherent to the protocol; furthermore, it is of course entirely in preprocessing, so we did not bother optimizing it. **The 2 party 256 bucket case should compile in minutes, but the 16 parties and 512 case may take around an hour just to compile on a laptop**.
 
 ## More advanced instructions
 The quick-start system is useful for getting up and running quickly, but you may find it necessary to manually edit and compile the code.
