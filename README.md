@@ -1,5 +1,6 @@
 This code is associated with the following manuscript:
 Alexander T. Leighton and Yun William Yu; "Secure Federated Aggregate-Count Queries on Medical Patient Databases Using Fully-Homomorphic Cryptography". In submission.
+https://www.biorxiv.org/content/10.1101/2021.11.10.468090v1
 
 ## Requirements
 * Palisade version 1.11 and dependencies:
